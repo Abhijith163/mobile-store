@@ -1,0 +1,92 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+    <style>
+        /* Checkout box styles */
+        .checkout-box {
+            width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #e1ebe1;
+            border: 1px solid #ccc;
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #a7b1a7;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #19db39;
+        }
+
+        /* Form styles */
+        form {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* Total row styles */
+        tfoot td {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>{{ item.product.brand }} {{ item.product.model }}</td>
+                    <td>{{ item.product.price }}</td>
+                    <td>{{ item.quantity }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">Total</td>
+                    <td>{{ sub_total }}</td>
+                </tr>
+            </tfoot>
+        </table>
+        <form action="complete_checkout/" method="POST">
+            {% csrf_token %}
+            <textarea name="address" cols="30" rows="10" placeholder="address" required></textarea> <br>
+            <input type="submit" value="Buy Now">
+        </form>
+    </div>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'navbar.html' %}
+{% block content %}
+{% load static %}
+
+<h1 class="bg-light">Delete Menu</h1><br>
+    
+    <div class="row">
+      
+      
+        <div class="col">
+            <h4 class="text-center">Are you sure want to remove this phone?</h4>
+            <div class="container mt-3 ">
+                <div class="card  " style="width: 50%;">
+                    {% if mobile.image %}
+                        <img class="card-img-top" src="{{mobile.image.url}}" alt="Card image cap">
+                    {%endif%}
+                    <div class="card-body">
+                        <h5 class="card-title">{{mobile.brand}}</h5>
+                        <p class="card-text">{{mobile.model}}.</p>
+                        <p class="card-text">{{mobile.price}}.</p>
+                        <p class="card-text">{{mobile.datetime}}.</p>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="container text-center">
+                            <button class="col-12 btn btn-danger">Confirm</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+         
+        </div>
+        
+
+    </div>
+{% endblock %}

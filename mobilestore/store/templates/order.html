@@ -1,0 +1,57 @@
+{% extends 'navbar.html' %}
+
+{% block content %}
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Orders</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-success">
+                    <h1 class="text-center mb-4">Orders</h1>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Products</th>
+                            <th>Address</th>
+                            <th>Date</th>
+                            <th>Sub total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td>#{{ order.id }}</td>
+                            <td>
+                                <ul>
+                                    {% for item in order_items %}
+                                        {% if item.order.id == order.id %}
+                                            <li>{{ item.product.brand }} {{ item.product.model }} - {{ item.quantity }} Nos.</li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>{{ order.address }}</td>
+                            <td>{{ order.date_added }}</td>
+                            <td>{{ order.sub_total }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

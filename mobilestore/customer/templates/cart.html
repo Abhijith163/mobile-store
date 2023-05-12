@@ -1,0 +1,128 @@
+{% extends 'nav.html' %}
+{% load mathfilters %}
+
+{% block content %}
+  <div class="container">
+    <h1 class="cart-title">Your Cart</h1>
+    <div class="cart-table">
+      <table>
+        {% if cart_items %}
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart_items %}
+            <tr>
+              <td>{{ item.product.brand }} {{ item.product.model }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>{{ item.product.price }}</td>
+              <td>{{ item.product.price|mul:item.quantity }}</td>
+              <td>
+                <form action="{% url 'remove_item' item.id %}" method="POST">
+                  {% csrf_token %}
+                  <button class="remove-btn" type="submit">Remove</button>
+                </form>
+              </td>
+              <td></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">Total</td>
+            <td>{{ total_price }}</td>
+            <td>
+              <form action="{% url 'checkout' %}" method="POST">
+                {% csrf_token %}
+                <button class="buy-btn" type="submit">Buy Now</button>
+              </form>
+            </td>
+          </tr>
+        </tfoot>
+        {% else%}
+          <div class="d-flex justify-content-center">
+            <p>Empty Cart</p>
+          </div>
+        {% endif %}
+      </table>
+    </div>
+  </div>
+
+  <style>
+    /* Styles for the cart page */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 30px 0;
+    }
+
+    .cart-title {
+      font-size: 36px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .cart-table table {
+      width: 100%;
+      border-collapse: collapse;
+      border-spacing: 0;
+      margin-bottom: 30px;
+    }
+
+    .cart-table th,
+    .cart-table td {
+      padding: 10px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .cart-table th {
+      background-color: #55db49;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .cart-table td {
+      border-bottom: 1px solid #ddd;
+    }
+
+    .cart-table tfoot td {
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .remove-btn,
+    .buy-btn {
+      display: inline-block;
+      margin-right: 10px;
+      background-color: #dc3545;
+      border: none;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .remove-btn:hover {
+      background-color: #c82333;
+    }
+
+    .buy-btn {
+      background-color: #007bff;
+    }
+
+    .buy-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+{% endblock %}
